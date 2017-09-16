@@ -1,3 +1,2 @@
+# Ignore all vagrant files
 .vagrant
-CentOS/.vagrant
-Ubuntu/.vagrant
