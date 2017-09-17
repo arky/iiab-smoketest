@@ -11,5 +11,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "public_network", type: "dhcp", bridge: "eth0"
   config.vm.network "public_network", type: "dhcp", bridge: "wlan0"
   config.vm.box = "centos/7"
+  # BUG curl-me script requires 'lsb_release' program
+  config.vm.provision "shell", inline: "yum install redhat-lsb-core"
   config.vm.provision "shell", path: "https://raw.githubusercontent.com/iiab/iiab-factory/master/curl-me"
 end
