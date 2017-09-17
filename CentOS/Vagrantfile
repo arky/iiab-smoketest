@@ -13,5 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "centos/7"
   # BUG curl-me script requires 'lsb_release' program
   config.vm.provision "shell", inline: "yum install redhat-lsb-core"
-  config.vm.provision "shell", path: "https://raw.githubusercontent.com/iiab/iiab-factory/master/curl-me"
+  # Disable remote script until pull #1 is merged
+  #config.vm.provision "shell", path: "https://raw.githubusercontent.com/iiab/iiab-factory/master/curl-me"
+  config.vm.provision "shell", path: "curl-me"
 end
