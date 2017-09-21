@@ -20,7 +20,6 @@ else
     LINUX_DIST = "Debian"
   elif [ -f /etc/centos_version ]; then
     LINUX_DIST = "CentOS"
-  else
   elif [ -f /etc/redhat-release ]; then
     LINUX_DIST = "Fedora"
   else
@@ -28,11 +27,13 @@ else
   fi
 fi
 
-if [ $LINUX_DIST == "CentOS" ] || [ $LINUX_DIST == "Fedora" ]; then
+if [ $LINUX_DIST == "CentOS" ]; then
   yum update
   # in case needed
   yum install -y git
-
+elif [ $LINUX_DIST == "Fedora" ]; then
+  dnf -y update
+  dnf -y install git
 elif [ $LINUX_DIST == "Ubuntu" ] || [ $LINUX_DIST == "Debian" ] || [ $LINUX_DIST == "Raspbian" ]; then
   export DEBIAN_FRONTEND=noninteractive
   apt-get -y update
