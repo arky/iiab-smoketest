@@ -17,7 +17,14 @@ Vagrant.configure("2") do |config|
     "Centrino Advanced-N 6205 [Taylor Peak]"]
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "private_network", type: "dhcp"
-
+  # Enable vagrant-cachier plugin with NFS bi-directional sync for shared folders
+  if Vagrant.has_plugin?("vagrant-cachier")
+     config.cache.scope = :box
+     config.cache.synced_folder_opts = {
+       type: :nfs,
+       mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
+     }
+    end
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
