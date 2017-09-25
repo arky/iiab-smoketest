@@ -2,7 +2,7 @@ Internet-in-a-Box (IIAB) Smoke Tests
 ==============================
 Smoke-testing of Internet-in-a-Box OS builds using Jekins and vagrant. This repository contains Vagrant virtual images for Ubuntu, Debian, Fedora and CentOS.
 
-At the moment Rasbian virtual image emulated in Qemu using [Jessie kernel](https://github.com/dhruvvyas90/qemu-rpi-kernel) and [Rasbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/) image. In future releases, this would be ported using [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt) provider.
+At the moment Raspbian virtual image emulated in Qemu using [Jessie kernel](https://github.com/dhruvvyas90/qemu-rpi-kernel) and [Raspbian Stretch Lite](https://www.raspberrypi.org/downloads/raspbian/) image. In future releases, this would be ported using [vagrant-libvirt](https://github.com/vagrant-libvirt/vagrant-libvirt) provider.
 
 The goal of the project is to port [George Hunt's xsce-tests](https://github.com/georgejhunt/xsce-tests/) for Internet-in-a-Box (IIAB) project.
 
@@ -13,7 +13,7 @@ You can add the example jobs in Jenkins/ folder with Jenkin command line tool.
 
 `$ java -jar jenkins-cli.jar -s http://jenkins/ create-job IIAB-Ubuntu < Jenkins/ubuntu-job-config.xml `
 
-The example jobs runs nightly jobs builds and emails the results to 'admin@example.com'. Don't forget to change this email address in Post-build Actions section of the Jenkins job configuration page. 
+The example jobs runs nightly jobs builds and emails the results to 'admin@example.com'. Don't forget to change this email address in Post-build Actions section of the Jenkins job configuration page.
 
 
 # Testing
