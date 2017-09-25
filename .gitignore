@@ -1,2 +1,7 @@
 # Ignore all vagrant files
 .vagrant
+*.log
+*.img
+*.zip
+*.box
+
