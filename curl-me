@@ -6,7 +6,7 @@ set -e
 # "set -e" to exit on error (avoids snowballing)
 
 # Checks if lsb_release is available on the system
-if [-x lsb_release]; then
+if [ -x lsb_release ]; then
         LSB_RELEASE=`which lsb_release`
 else
         echo "The 'lsb_release' program is missing."
