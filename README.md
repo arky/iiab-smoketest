@@ -9,6 +9,11 @@ The goal of the project is to port [George Hunt's xsce-tests](https://github.com
 # Usage
 You'll need a [Jenkins server](http://jenkins.io/) with [Vagrant plugin](https://wiki.jenkins.io/display/JENKINS/Vagrant-plugin) installed. To speed up builds by caching packages you'll need [vagrant-cachier](https://github.com/fgrehm/vagrant-cachier) installed. You can then add new jobs to build Internet-in-a-Box (IIAB) for each target operating system.
 
+You can add the example jobs in Jenkins/ folder with Jenkin command line tool.
+
+`$ java -jar jenkins-cli.jar -s http://jenkins/ create-job IIAB-Ubuntu < Jenkins/ubuntu-job-config.xml `
+
+The example jobs runs nightly jobs builds and emails the results to 'admin@example.com'. Don't forget to change this email address in Post-build Actions section of the Jenkins job configuration page. 
 
 
 # Testing
