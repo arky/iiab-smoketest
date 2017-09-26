@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
     ubuntu.vm.provision "shell", :run => 'always', inline: "echo 'Acquire::CompressionTypes::Order:: \"gz\";' > /etc/apt/apt.conf.d/99compression-workaround"
     ubuntu.vm.provision "shell", :run => 'always', path: "curl-me"
   end
-  
+
   config.vm.define "debian", autostart: false do |debian|
     debian.vm.box = "debian/stretch64"
     debian.vm.provision "shell", :run => 'always', path: "curl-me"
