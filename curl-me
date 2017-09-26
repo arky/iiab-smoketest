@@ -29,7 +29,7 @@ else
 fi
 
 if [ $LINUX_DIST == "CentOS" ]; then
-  yum update
+  yum -y update
   # in case needed
   yum install -y git
 elif [ $LINUX_DIST == "Fedora" ]; then

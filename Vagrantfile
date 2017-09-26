@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "centos", autostart: false do |centos|
     centos.vm.box = "centos/7"
     # BUG curl-me script requires 'lsb_release' program
-    centos.vm.provision "shell", inline: "yum install redhat-lsb-core"
+    centos.vm.provision "shell", inline: "yum -y install redhat-lsb-core"
     centos.vm.provision "shell", path: "curl-me"
   end
 
