@@ -47,6 +47,9 @@ else
   exit 1
 fi
 
+# Clean up old repositories
+if [ -d /opt/iiab ]; then rm -Rf /opt/iiab; fi
+
 mkdir -p /opt/iiab
 
 # Get the extras
