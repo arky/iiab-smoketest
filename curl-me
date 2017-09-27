@@ -68,9 +68,9 @@ git clone https://github.com/iiab/iiab --depth 1
 cd /opt/iiab/iiab
 
 # patch the ansible version 2.2.1
-if [ -d /usr/lib/python2.7/site-packages ]; sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/site-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
+if [ -d /usr/lib/python2.7/site-packages ]; then sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/site-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
 
-if [ -d /usr/lib/python2.7/dist-packages ]; sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/dist-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
+if [ -d /usr/lib/python2.7/dist-packages ]; then sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/dist-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
 
 cd /opt/iiab/iiab/vars
 
