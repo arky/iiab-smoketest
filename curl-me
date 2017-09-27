@@ -31,17 +31,17 @@ fi
 if [ $LINUX_DIST == "CentOS" ]; then
   yum -y update
   # in case needed
-  yum install -y git ansible
+  yum install -y git ansible wget
 elif [ $LINUX_DIST == "Fedora" ]; then
   dnf -y update
-  dnf -y install git ansible
+  dnf -y install git ansible wget
 elif [ $LINUX_DIST == "Ubuntu" ] || [ $LINUX_DIST == "Debian" ] || [ $LINUX_DIST == "Raspbian" ]; then
   export DEBIAN_FRONTEND=noninteractive
   apt-get -y update
   apt-get -y dist-upgrade
   apt-get -y clean
   # in case needed
-  apt-get install -y git ansible
+  apt-get install -y git ansible wget
 else
   echo "$LINUX_DIST not supported at this time."
   exit 1
