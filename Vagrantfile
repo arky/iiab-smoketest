@@ -3,9 +3,13 @@
 
 Vagrant.require_version ">= 2.0.0"
 
+# Import Vagrant-dependency-manager file and check if required plugins are installed.
+require File.dirname(__FILE__)+ "/dependency_manager"
+check_plugins ["vagrant-vbguest", "vagrant-cachier"]
+
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox"
-  #config.vm.boot_timeout = "600"
+  config.vm.boot_timeout = 600
   config.vm.box_check_update = "true"
   # You can find out your network interface name with 'lshw -class network'
   config.vm.network "public_network", type: "dhcp", bridge: [
@@ -17,28 +21,32 @@ Vagrant.configure("2") do |config|
     "Centrino Advanced-N 6205 [Taylor Peak]"]
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "private_network", type: "dhcp"
-  # Enable vagrant-cachier plugin with NFS bi-directional sync for shared folders
+  # vagrant-vbguest check if the VirtualBox Guest Additions version number are in sync
+  config.vbguest.auto_update = true
+  # Enable vagrant-cachier plugin enabled for multi-vm envirnoment
   if Vagrant.has_plugin?("vagrant-cachier")
-     config.cache.scope = :box
-     config.cache.synced_folder_opts = {
-       type: :nfs,
-       mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
-     }
-    end
+     config.cache.scope = :machine
+     
+    config.cache.synced_folder_opts = {
+      owner: "root",
+      group: "root",
+      mount_options:['dmode=777', 'fmode=755']
+    }
+  end
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
-  config.vm.define "ubuntu", primary: true, autostart: true do |ubuntu|
+  config.vm.define "debian", primary: true, autostart: true do |debian|
+    debian.vm.box = "debian/stretch64"
+    debian.vm.provision "shell", :run => 'always', path: "curl-me"
+  end
+
+  config.vm.define "ubuntu", autostart: false do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
         # Fixes Apt hash sum mismatch error https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
     ubuntu.vm.provision "shell", :run => 'always', inline: "echo 'Acquire::CompressionTypes::Order:: \"gz\";' > /etc/apt/apt.conf.d/99compression-workaround"
     ubuntu.vm.provision "shell", :run => 'always', path: "curl-me"
-  end
-
-  config.vm.define "debian", autostart: false do |debian|
-    debian.vm.box = "debian/stretch64"
-    debian.vm.provision "shell", :run => 'always', path: "curl-me"
   end
 
   config.vm.define "fedora", autostart: false do |fedora|

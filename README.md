@@ -7,7 +7,9 @@ At the moment Raspbian virtual image emulated in Qemu using [Jessie kernel](http
 The goal of the project is to port [George Hunt's xsce-tests](https://github.com/georgejhunt/xsce-tests/) for Internet-in-a-Box (IIAB) project.
 
 # Usage
-You'll need a [Jenkins server](http://jenkins.io/) with [Vagrant plugin](https://wiki.jenkins.io/display/JENKINS/Vagrant-plugin) installed. To speed up builds by caching packages you'll need [vagrant-cachier](https://github.com/fgrehm/vagrant-cachier) and [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) to automatically sync VirtualBox guest additions. 
+You can launch a virtual machine by typing `vagrant up`. The default 'debian' virtual machine will be launched and provisioned. 
+
+You'll need a [Jenkins server](http://jenkins.io/) with [Vagrant plugin](https://wiki.jenkins.io/display/JENKINS/Vagrant-plugin) installed. To speed up builds by caching packages you'll need [vagrant-cachier](https://github.com/fgrehm/vagrant-cachier) and [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest) to automatically sync VirtualBox guest additions.
 
 
 You can then add new jobs to build Internet-in-a-Box (IIAB) for each target operating system.
