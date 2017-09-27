@@ -31,17 +31,17 @@ fi
 if [ $LINUX_DIST == "CentOS" ]; then
   yum -y update
   # in case needed
-  yum install -y git
+  yum install -y git ansible
 elif [ $LINUX_DIST == "Fedora" ]; then
   dnf -y update
-  dnf -y install git
+  dnf -y install git ansible
 elif [ $LINUX_DIST == "Ubuntu" ] || [ $LINUX_DIST == "Debian" ] || [ $LINUX_DIST == "Raspbian" ]; then
   export DEBIAN_FRONTEND=noninteractive
   apt-get -y update
   apt-get -y dist-upgrade
   apt-get -y clean
   # in case needed
-  apt-get install -y git
+  apt-get install -y git ansible
 else
   echo "$LINUX_DIST not supported at this time."
   exit 1
@@ -67,24 +67,17 @@ git clone https://github.com/iiab/iiab --depth 1
 
 cd /opt/iiab/iiab
 
-./scripts/ansible
-# Installs the correct version of Ansible
+# patch the ansible version 2.2.1
+if [ -d /usr/lib/python2.7/site-packages ]; sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/site-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
+
+if [ -d /usr/lib/python2.7/dist-packages ]; sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/dist-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
 
 cd /opt/iiab/iiab/vars
 
-if [ $LINUX_DIST == "Raspbian" ]; then
-  wget http://download.iiab.io/6.3/rpi/local_vars.yml
-  # Above assumes a virgin RPi system (wget WON'T overwrite existing files)
-fi
-# In general please examine local_vars.yml carefully (and modify as nec)
-# before running Ansible (below, which takes ~2.5 hours the first time!)
-
-# And note the security warning
-
-# NOTE: you can change many/most settings after install too, using the
-# Admin Console (http://box/admin) as documented at: http://FAQ.IIAB.IO
-
-read -p "Press enter to Install or ctl-c to STOP and edit local vars"
+#wget http://download.iiab.io/6.4/rpi/local_vars_min.yml
+#ln -sf local_vars_big.yml local_vars.yml
+wget http://download.iiab.io/6.4/rpi/local_vars_min.yml
+ln -sf local_vars_min.yml local_vars.yml
 
 cd /opt/iiab/iiab
 ./runansible
