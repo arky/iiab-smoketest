@@ -13,6 +13,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = "true"
   # You can find out your network interface name with 'lshw -class network'
   config.vm.network "public_network", type: "dhcp", bridge: [
+    "enp3s0",
     "wlan0",
     "eth0",
     "eth1",
@@ -26,7 +27,7 @@ Vagrant.configure("2") do |config|
   # Enable vagrant-cachier plugin enabled for multi-vm envirnoment
   if Vagrant.has_plugin?("vagrant-cachier")
      config.cache.scope = :machine
-     
+
     config.cache.synced_folder_opts = {
       owner: "root",
       group: "root",
