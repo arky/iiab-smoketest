@@ -5,12 +5,16 @@ Vagrant.require_version ">= 2.0.0"
 
 # Import Vagrant-dependency-manager file and check if required plugins are installed.
 require File.dirname(__FILE__)+ "/dependency_manager"
-check_plugins ["vagrant-vbguest", "vagrant-cachier"]
+check_plugins ["vagrant-vbguest", "vagrant-cachier", "vagrant-box-updater"]
 
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox"
   config.vm.boot_timeout = 600
   config.vm.box_check_update = "true"
+  # vagrant-box-updater plugins updates the box automatically.
+  if Vagrant.has_plugin?("vagrant-box-updater")
+      config.box_updater.autoupdate = "true"
+  end
   # You can find out your network interface name with 'lshw -class network'
   config.vm.network "public_network", type: "dhcp", bridge: [
     "enp3s0",

@@ -12,7 +12,6 @@ else
         echo "The 'lsb_release' program is missing."
 fi
 
-
 if [ "$LSB_RELEASEx" != "x" ]; then
   LINUX_DIST=`lsb_release -is`
 else
@@ -41,7 +40,7 @@ elif [ $LINUX_DIST == "Ubuntu" ] || [ $LINUX_DIST == "Debian" ] || [ $LINUX_DIST
   apt-get -y dist-upgrade
   apt-get -y clean
   # in case needed
-  apt-get install -y git ansible wget
+  apt-get -y install git ansible wget
 else
   echo "$LINUX_DIST not supported at this time."
   exit 1
