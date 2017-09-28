@@ -1,0 +1,69 @@
+<domain type='qemu' id='3' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'><!--We need the qemu extensions, to be able to set a custom cpu-->
+  <name>Raspbian</name>
+  <uuid>dde875c8-d86f-4aa2-abce-b76ee5cc1032</uuid>
+  <memory unit='KiB'>262144</memory>
+  <currentMemory unit='KiB'>262144</currentMemory>
+  <vcpu placement='static'>1</vcpu>
+  <resource>
+    <partition>/machine</partition>
+  </resource>
+  <os>
+    <type arch='armv7l' machine='versatilepb'>hvm</type><!--libvirt does not know about armv6l, so use armv7l. The custom cpu setting will choose the correct architecture anyway-->
+    <kernel>/var/lib/libvirt/boot/kernel-qemu-4.4.34-jessie</kernel><!--The kernel from http://xecdesign.com/qemu-emulating-raspberry-pi-the-easy-way/ -->
+    <cmdline>root=/dev/sda2 panic=1 rootfstype=ext4 console=ttyAMA0</cmdline><!--Select the correct root file system from the Raspbian image. Also set the console, so that we can see something-->
+    <boot dev='hd'/>
+  </os>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-arm</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='raw'/>
+      <source file='/var/lib/libvirt/images/2017-09-07-raspbian-stretch-lite.img'/>
+      <target dev='hda' bus='scsi'/>
+      <alias name='scsi0-0-2'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='2'/>
+    </disk>
+    <controller type='usb' index='0'>
+      <alias name='usb0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x2'/>
+    </controller>
+    <controller type='pci' index='0' model='pci-root'>
+      <alias name='pci.0'/>
+    </controller>
+    <controller type='scsi' index='0'>
+      <alias name='scsi0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </controller>
+    <!-- Disabled this network card due to libvirt bug, supported by the raspberry pi
+    <interface type='network'>
+      <mac address='52:54:00:50:2f:ce'/>
+      <source network='default'/>
+      <target dev='vnet0'/>
+      <model type='smc91c111'/>
+      <alias name='net0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x01' function='0x0'/>
+    </interface>
+    -->
+    <serial type='pty'>
+      <source path='/dev/pts/16'/>
+      <target port='0'/>
+      <alias name='serial0'/>
+    </serial>
+    <console type='pty' tty='/dev/pts/16'>
+      <source path='/dev/pts/16'/>
+      <target type='serial' port='0'/>
+      <alias name='serial0'/>
+    </console>
+    <sound model='es1370'>
+      <alias name='sound0'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </sound>
+  </devices>
+  <qemu:commandline><!--we need to set a custom cpu-->
+    <qemu:arg value='-cpu'/>
+    <qemu:arg value='arm1176'/>
+  </qemu:commandline>
+</domain>
