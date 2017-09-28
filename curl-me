@@ -40,7 +40,7 @@ elif [ $LINUX_DIST == "Ubuntu" ] || [ $LINUX_DIST == "Debian" ] || [ $LINUX_DIST
   apt-get -y dist-upgrade
   apt-get -y clean
   # in case needed
-  apt-get -y install git ansible wget
+  apt-get -y install git ansible wget software-properties-common python-software-properties
 else
   echo "$LINUX_DIST not supported at this time."
   exit 1
@@ -69,7 +69,7 @@ cd /opt/iiab/iiab
 # patch the ansible version 2.2.1
 if [ -d /usr/lib/python2.7/site-packages ]; then sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/site-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
 
-if [ -d /usr/lib/python2.7/dist-packages ]; then sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/dist-packages/ansible/modules/core/web_infrastructure/htpasswd.py; fi
+if [ -d /usr/lib/python2.7/dist-packages ]; then sed -i 's/StrictVersion/LooseVersion/g' /usr/lib/python2.7/dist-packages/ansible/modules/web_infrastructure/htpasswd.py; fi
 
 cd /opt/iiab/iiab/vars
 
