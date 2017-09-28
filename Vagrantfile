@@ -49,6 +49,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "ubuntu", autostart: false do |ubuntu|
     ubuntu.vm.box = "ubuntu/xenial64"
+    ubuntu.vm.provision "shell", :run => 'always', inline: "apt-add-repository -y ppa:ansible/ansible"
         # Fixes Apt hash sum mismatch error https://blog.packagecloud.io/eng/2016/03/21/apt-hash-sum-mismatch/
     ubuntu.vm.provision "shell", :run => 'always', inline: "echo 'Acquire::CompressionTypes::Order:: \"gz\";' > /etc/apt/apt.conf.d/99compression-workaround"
     ubuntu.vm.provision "shell", :run => 'always', path: "curl-me"
