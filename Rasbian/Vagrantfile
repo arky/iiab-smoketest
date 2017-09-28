@@ -1,0 +1,26 @@
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+
+Vagrant.configure(2) do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+# Source https://github.com/vagrant-libvirt/vagrant-libvirt/issues/589
+
+  # vagrant issues #1673..fixes hang with configure_networks
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+  config.vm.provider :libvirt do |domain|
+    domain.uri = 'qemu+unix:///system'
+    domain.host = 'virtualized'
+    domain.kernel = File.join(Dir.pwd, "kernel-qemu-4.4.34-jessie")
+    domain.storage :block, :type => "raw", :path => "2017-09-07-raspbian-stretch-lite.img", :allow_existing => "true"
+    domain.cmd_line = 'root=/dev/sda2 panic=1 rootfstype=ext4 console=ttyAMA devtmpfs.mount=0 rw'
+    domain.memory = 256
+    domain.driver = 'qemu'
+    domain.machine_type = 'vexpress-a9'
+    domain.machine_arch = 'armv7l'
+    domain.cpu_mode = 'custom'
+    domain.cpu_model = 'cortex-a9'
+    domain.cpu_fallback = 'allow'
+    domain.graphics_type = 'none'
+  end
+end
