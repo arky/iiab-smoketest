@@ -1,11 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-
+# Setting Vagrant minimum require_version
 Vagrant.require_version ">= 2.0.0"
-
-# Import Vagrant-dependency-manager file and check if required plugins are installed.
-require File.dirname(__FILE__)+ "/dependency_manager"
-check_plugins ["vagrant-vbguest", "vagrant-cachier"]
 
 Vagrant.configure("2") do |config|
   config.vm.provider "virtualbox"
@@ -22,8 +18,18 @@ Vagrant.configure("2") do |config|
     "Centrino Advanced-N 6205 [Taylor Peak]"]
   config.vm.network "private_network", type: "dhcp"
   config.vm.network "private_network", type: "dhcp"
+
+  # Vagrant-dependency-manager to install required Vagrant plugins
+  if File.exists?(File.dirname(__FILE__)+ "/dependency_manager.rb")
+    require File.dirname(__FILE__)+ "/dependency_manager"
+    check_plugins ["vagrant-vbguest", "vagrant-cachier"]
+  end
+
   # vagrant-vbguest check if the VirtualBox Guest Additions version number are in sync
-  config.vbguest.auto_update = true
+  if Vagrant.has_plugin?("vagrant-vbguest")
+    config.vbguest.auto_update = true
+  end
+
   # Enable vagrant-cachier plugin enabled for multi-vm envirnoment
   if Vagrant.has_plugin?("vagrant-cachier")
      config.cache.scope = :machine
@@ -34,6 +40,7 @@ Vagrant.configure("2") do |config|
       mount_options:['dmode=777', 'fmode=755']
     }
   end
+
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
