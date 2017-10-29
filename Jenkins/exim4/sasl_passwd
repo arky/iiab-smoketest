@@ -1,0 +1,5 @@
+# Please run the following command to generate the hash
+# sudo postmap /etc/postfix/sasl/sasl_passwd
+
+[smtp.gmail.com]:587 username@gmail.com:password
+
